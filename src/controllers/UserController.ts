@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../entity/User";
-import { CreateUserDto } from "../dtos/create-user.dto";
+import { CreateUserDto, IdParamUserDto } from "../dtos/create-user.dto";
 import { AppDataSource } from "../data-source";
 import { Quartier } from "../entity/Quartier";
 
@@ -110,6 +110,44 @@ class UserController {
         .json({ success: false, message: message || error.message });
     }
   };
+
+  static getUsersByQuartier = async (req: Request, res: Response) => {
+    try {
+      const quartierId = parseInt(req.params.quartier_id, 10); // Convertir l'ID du quartier en nombre
+
+      // Vérifiez si le quartier existe
+      const quartier = await Quartier.findOneBy({ id: quartierId });
+      if (!quartier) {
+        return res.status(404).json({ success: false, message: "Quartier non trouvé" });
+      }
+
+      // Récupérez les utilisateurs associés au quartier
+      const users = await User.find({ where: { quartier: { id: quartierId } } });
+      
+      return res.status(200).json({ success: true, data: users });
+    } catch (error) {
+      const [code, message] = error.message.split("|");
+      const isValid = isFinite(code);
+      return res
+        .status(isValid ? +code : 500)
+        .json({ success: false, message: message || error.message });
+    }
+  };
+
+  static getUser = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params as unknown as IdParamUserDto;
+      const user = await User.findOne({ where: { id }, relations: ["quartier"], });
+      return res.status(200).json({ success: true, data: user });
+    } catch (error) {
+      const [code, message] = error.message.split("|");
+      const isValid = isFinite(code);
+      return res
+        .status(isValid ? +code : 500)
+        .json({ success: false, message: message || error.message });
+    }
+  };
+
 }
 
 export default UserController;
