@@ -7,6 +7,9 @@ const server = express();
 server.use(bodyParser.json());
 server.use(router);
 server.use(express.json());
+server.get("/", (req, res) => {
+  res.send("Api en marche");
+});
 
 AppDataSource.initialize()
   .then(async () => {
