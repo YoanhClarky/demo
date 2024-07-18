@@ -2,6 +2,7 @@ import * as express from "express";
 import { AppDataSource } from "./data-source";
 import router from "./routes";
 import { User } from "./entity/User";
+
 const cors = require('cors')
 
 
@@ -13,7 +14,12 @@ server.use(express.json());
 server.get("/", (req, res) => {
   res.send("Api en marche");
 });
-server.use(cors())
+server.use(cors(
+  {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }
+))
 
 server.get('/bonjour', async (req, res)=>{
   const users = await User.find()
