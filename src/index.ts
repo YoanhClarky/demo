@@ -8,18 +8,19 @@ const cors = require('cors')
 
 const bodyParser = require("body-parser");
 const server = express();
-server.use(bodyParser.json());
-server.use(router);
-server.use(express.json());
-server.get("/", (req, res) => {
-  res.send("Api en marche");
-});
 server.use(cors(
   {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   }
 ))
+server.use(bodyParser.json());
+server.use(router);
+server.use(express.json());
+server.get("/", (req, res) => {
+  res.send("Api en marche");
+});
+
 
 server.get('/bonjour', async (req, res)=>{
   const users = await User.find()

@@ -6,7 +6,7 @@ import { Ville } from "../entity/Ville";
 class ArrondissementController {
   static getAll = async (req: Request, res: Response) => {
     try {
-      const arrondissements = await Arrondissement.find();
+      const arrondissements = await Arrondissement.find({relations :["ville"]});
       return res.status(200).json({ success: true, data: arrondissements });
     } catch (error) {
       const [code, message] = error.message.split("|");
