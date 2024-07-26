@@ -1,0 +1,41 @@
+NodeJS 20 > , TypeOrm, avec Typescript
+
+npm init -y
+
+npm install express typeorm typescript mysql2
+
+npm i @types/express @types/node ts-node
+
+npx tsc --init
+
+npm i express-validator
+
+
+
+npm i nodemon
+
+///
+npx typeorm init
+dans data-source on mets dropSchema: true
+npm i express
+npm i -D @types/express
+npm i mysql2
+npm i -D nodemon
+npm i class-validator
+npm i class-transformer
+npm i path
+npm i body-parser
+/// ou 
+///
+npx typeorm init && npm i express mysql2 class-validator class-transformer path body-parser && npm i -D @types/express nodemon
+///
+-dans package.json/scrip/start on met "start":"nodemon"
+-on creer le fichier nodemon.json dans la racine du projet et
+-on met ceci {
+    "watch": ["src"],
+    "ext": "ts",
+    "exec": "ts-node src/index.ts"
+}
+Dans tsconfig on met "target": "ES6",
+
+npm start
